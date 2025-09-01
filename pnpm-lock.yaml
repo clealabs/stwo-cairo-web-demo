@@ -48,8 +48,8 @@ importers:
         specifier: ^2.0.7
         version: 2.0.7(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       stwo-cairo:
-        specifier: ^1.0.7
-        version: 1.0.7
+        specifier: ^1.1.0
+        version: 1.1.0
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.3.1
@@ -1336,8 +1336,8 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
 
-  stwo-cairo@1.0.7:
-    resolution: {integrity: sha512-wSBqV9gvCv71q3sfrxHFnPlXkRy+vKdvce5BnAt6F/JpfWCVBUCto6JGYn28+eoc4l7+1Y7WU1Pz2zfL0p/phQ==}
+  stwo-cairo@1.1.0:
+    resolution: {integrity: sha512-1zO6XLpLyY4GsoljmLyRm8Hr9JrmXpmXIc6CJVIPm6FvKeWfPkqa9Zdrz3VJYuT0AchlzS2kYoZEQhLMkjfvkA==}
 
   supports-color@7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
@@ -2586,7 +2586,7 @@ snapshots:
 
   strip-json-comments@3.1.1: {}
 
-  stwo-cairo@1.0.7: {}
+  stwo-cairo@1.1.0: {}
 
   supports-color@7.2.0:
     dependencies:
