@@ -34,6 +34,7 @@ import hljs from "highlight.js/lib/core";
 import cairo from "highlightjs-cairo";
 import {
   init,
+  debug,
   execute as stwoExecute,
   prove as stwoProve,
   verify as stwoVerify,
@@ -90,6 +91,7 @@ export default function App() {
 
   useEffect(() => {
     init();
+    debug();
   }, []);
 
   useEffect(() => {
