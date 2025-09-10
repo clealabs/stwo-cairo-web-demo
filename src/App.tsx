@@ -90,8 +90,9 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    init();
-    debug();
+    init().then(() => {
+      debug();
+    });
   }, []);
 
   useEffect(() => {
