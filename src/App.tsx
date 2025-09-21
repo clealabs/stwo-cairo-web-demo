@@ -78,6 +78,7 @@ export default function App() {
   const [verificationTime, setVerificationTime] = useState<number>(0);
   const [memory64Support, setMemory64Support] = useState<boolean | null>(null);
   const [browserInfo, setBrowserInfo] = useState<string>("");
+  const [isChromeMacArm, setIsChromeMacArm] = useState<boolean>(false);
   const [isEditingSource, _setIsEditingSource] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -187,6 +188,43 @@ export default function App() {
 
         setBrowserInfo(`${browser} ${version}`);
 
+        // Detect Chrome on macOS running on ARM (Apple Silicon)
+        try {
+          const ua = userAgent;
+          const isEdge = /Edg\//.test(ua);
+          const isChrome = !isEdge && /Chrome\/(\d+)/.test(ua);
+          let isMac = /(Macintosh|Mac OS X)/.test(ua);
+          let isArm = /(arm|aarch64|apple silicon)/i.test(ua);
+
+          const anyNav: any = navigator as any;
+          if (
+            anyNav.userAgentData &&
+            typeof anyNav.userAgentData.getHighEntropyValues === "function"
+          ) {
+            try {
+              const high = await anyNav.userAgentData.getHighEntropyValues([
+                "architecture",
+                "platform",
+                "model",
+                "bitness",
+                "uaFullVersion",
+              ]);
+              if (high && typeof high.platform === "string") {
+                isMac = /mac/i.test(high.platform);
+              }
+              if (high && typeof high.architecture === "string") {
+                isArm = /arm/i.test(high.architecture);
+              }
+            } catch {
+              // ignore — fall back to UA heuristics
+            }
+          }
+
+          setIsChromeMacArm(isChrome && isMac && isArm);
+        } catch {
+          setIsChromeMacArm(false);
+        }
+
         try {
           const isSupported = await memory64();
           setMemory64Support(isSupported);
@@ -196,6 +234,7 @@ export default function App() {
       } catch {
         setMemory64Support(false);
         setBrowserInfo("Unknown");
+        setIsChromeMacArm(false);
       }
     };
 
@@ -408,10 +447,21 @@ export default function App() {
                     {memory64Support === null ? (
                       <span className="text-muted-foreground">Checking...</span>
                     ) : memory64Support ? (
-                      <span className="text-green-600 flex items-center gap-1">
-                        <CheckCircle className="h-3 w-3" />
-                        Supported
-                      </span>
+                      isChromeMacArm ? (
+                        <a
+                          href="https://github.com/clealabs/stwo-cairo-ts/issues/2"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-red-600 hover:underline"
+                        >
+                          Unsupported (chrome bug)
+                        </a>
+                      ) : (
+                        <span className="text-green-600 flex items-center gap-1">
+                          <CheckCircle className="h-3 w-3" />
+                          Supported
+                        </span>
+                      )
                     ) : (
                       <span className="text-red-600">Not supported</span>
                     )}
